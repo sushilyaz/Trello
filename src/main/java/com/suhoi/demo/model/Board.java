@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
+@Table(name = "boards", schema = "task_manager")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -18,6 +19,6 @@ public class Board extends BaseEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<User> moderators;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<User> members;
 }

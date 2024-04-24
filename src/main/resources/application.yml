@@ -1,3 +1,17 @@
 spring:
   application:
     name: TaskManager
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.xml
+    default-schema: task_manager
+    liquibase-schema: liquibase_service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: suhoi
+    password: qwerty
+    url: jdbc:postgresql://localhost:5432/suhoi
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true

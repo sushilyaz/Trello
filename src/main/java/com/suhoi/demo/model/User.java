@@ -9,9 +9,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "task_manager")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class User {
@@ -29,5 +30,6 @@ public class User {
     private String email;
 
     @CreatedDate
-    private Timestamp createdAt;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 }

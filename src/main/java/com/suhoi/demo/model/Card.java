@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "cards", schema = "task_manager")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -27,6 +28,7 @@ public class Card extends BaseEntity {
     private List<User> assignees;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_lists_id")
     private CardList cardList;
 
     @OneToMany(mappedBy = "card", fetch = FetchType.LAZY)

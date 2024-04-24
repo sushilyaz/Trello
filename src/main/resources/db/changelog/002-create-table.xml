@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="1" author="suhoi">
+        <createTable schemaName="task_manager" tableName="users">
+            <column name="id" type="BIGINT" remarks="users id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)" remarks="user's name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)" remarks="user's password">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)" remarks="user's email">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATE" remarks="user's role: ADMIN or SIMPLE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="suhoi">
+        <createTable schemaName="task_manager" tableName="boards">
+            <column name="id" type="BIGINT" remarks="boards id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)" remarks="title of boards">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT" remarks="description of boards">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" remarks="date of create boards"/>
+            <column name="updated_at" type="TIMESTAMP" remarks="date of update boards"/>
+            <column name="creator_id" type="BIGINT" remarks="creator of boards">
+                <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="suhoi">
+        <createTable schemaName="task_manager" tableName="boards_members">
+            <column name="board_id" type="BIGINT" remarks="boards id">
+                <constraints foreignKeyName="fk_boards_id" references="task_manager.boards(id)" nullable="false"/>
+            </column>
+            <column name="members_id" type="BIGINT" remarks="user id">
+                <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="suhoi">
+        <createTable schemaName="task_manager" tableName="boards_moderators">
+            <column name="board_id" type="BIGINT" remarks="boards id">
+                <constraints foreignKeyName="fk_boards_id" references="task_manager.boards(id)" nullable="false"/>
+            </column>
+            <column name="moderators_id" type="BIGINT" remarks="user id">
+                <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="suhoi">
+        <createTable schemaName="task_manager" tableName="card_lists">
+            <column name="id" type="BIGINT" remarks="card_lists id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)" remarks="title of card_lists">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT" remarks="description of card_lists">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" remarks="date of create card_lists"/>
+            <column name="updated_at" type="TIMESTAMP" remarks="date of update card_lists"/>
+            <column name="creator_id" type="BIGINT" remarks="creator of boards">
+                <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
+            </column>
+            <column name="board_id" type="BIGINT" remarks="parent of card_lists">
+                <constraints foreignKeyName="fk_board_id" references="task_manager.boards(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6" author="suhoi">
+        <createTable schemaName="task_manager" tableName="cards">
+            <column name="id" type="BIGINT" remarks="card id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)" remarks="title of card">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT" remarks="description of card">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" remarks="date of create card"/>
+            <column name="updated_at" type="TIMESTAMP" remarks="date of update card"/>
+            <column name="status" type="VARCHAR(100)" remarks="card status"/>
+            <column name="importance" type="VARCHAR(100)" remarks="importance of card"/>
+            <column name="deadline" type="DATE" remarks="deadline of card"/>
+            <column name="creator_id" type="BIGINT" remarks="creator of boards">
+                <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
+            </column>
+            <column name="card_lists_id" type="BIGINT" remarks="parent of card">
+                <constraints foreignKeyName="fk_board_id" references="task_manager.card_lists(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="7" author="suhoi">
+        <createTable schemaName="task_manager" tableName="cards_assignees">
+            <column name="assignees_id" type="BIGINT" remarks="user id">
+                <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
+            </column>
+            <column name="card_id" type="BIGINT" remarks="card id">
+                <constraints foreignKeyName="fk_cards_id" references="task_manager.cards(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="8" author="suhoi">
+        <createTable schemaName="task_manager" tableName="tasks">
+            <column name="id" type="BIGINT" remarks="task id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)" remarks="title of card_lists">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT" remarks="description of card_lists">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" remarks="date of create card_lists"/>
+            <column name="updated_at" type="TIMESTAMP" remarks="date of update card_lists"/>
+            <column name="creator_id" type="BIGINT" remarks="creator of boards">
+                <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
+            </column>
+            <column name="is_complete" type="BOOLEAN" remarks="is task completed ?"/>
+            <column name="card_id" type="BIGINT" remarks="parent of task">
+                <constraints foreignKeyName="fk_card_id" references="task_manager.cards(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>
