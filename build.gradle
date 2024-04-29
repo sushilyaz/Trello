@@ -26,13 +26,14 @@ ext {
 	preLiquibaseVersion = '1.5.0'
 	mapstructVersion = '1.5.5.Final'
 	mapstructLombokVersion = '0.2.0'
+	jsonNullable = '0.2.6'
 }
 
 dependencies {
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${mapstructLombokVersion}"
-
+	implementation "org.openapitools:jackson-databind-nullable:${jsonNullable}"
 	implementation "net.lbruun.springboot:preliquibase-spring-boot-starter:${preLiquibaseVersion}"
 	implementation "org.postgresql:postgresql:${postgresVersion}"
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
