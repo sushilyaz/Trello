@@ -6,7 +6,7 @@
 
     <changeSet id="1" author="suhoi">
         <createTable schemaName="task_manager" tableName="users">
-            <column name="id" type="BIGINT" remarks="users id">
+            <column name="id" type="BIGSERIAL" remarks="users id">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="username" type="VARCHAR(255)" remarks="user's name">
@@ -18,7 +18,7 @@
             <column name="email" type="VARCHAR(255)" remarks="user's email">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_at" type="DATE" remarks="user's role: ADMIN or SIMPLE"/>
+            <column name="created_at" type="TIMESTAMP" remarks="CREATE DATE"/>
         </createTable>
     </changeSet>
 
