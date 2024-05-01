@@ -24,7 +24,7 @@
 
     <changeSet id="2" author="suhoi">
         <createTable schemaName="task_manager" tableName="boards">
-            <column name="id" type="BIGINT" remarks="boards id">
+            <column name="id" type="BIGSERIAL" remarks="boards id">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)" remarks="title of boards">

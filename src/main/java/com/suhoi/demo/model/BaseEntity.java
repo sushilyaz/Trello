@@ -6,12 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Data
@@ -32,9 +31,9 @@ public abstract class BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
-    @CreatedDate
+    @CreationTimestamp
     private Timestamp createdAt;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private Timestamp updatedAt;
 }
