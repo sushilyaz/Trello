@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public String create(@RequestBody AuthDto authDto) {
+    public String auth(@RequestBody AuthDto authDto) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authDto.getEmail(), authDto.getPassword());
         authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         return jwtUtils.generateToken(authDto.getEmail());

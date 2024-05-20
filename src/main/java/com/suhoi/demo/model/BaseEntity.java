@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,12 +13,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity {
+public abstract class BaseEntity extends ParentForJsonOfNullable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,3 +39,5 @@ public abstract class BaseEntity {
     @UpdateTimestamp
     private Timestamp updatedAt;
 }
+
+

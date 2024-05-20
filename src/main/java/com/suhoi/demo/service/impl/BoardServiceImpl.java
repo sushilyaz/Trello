@@ -1,8 +1,9 @@
 package com.suhoi.demo.service.impl;
 
 import com.suhoi.demo.dto.BoardCreateDto;
-import com.suhoi.demo.dto.BoardDto;
 import com.suhoi.demo.dto.BoardUpdateDto;
+import com.suhoi.demo.exception.AccessPermissionDeniedException;
+import com.suhoi.demo.exception.DataNotFoundException;
 import com.suhoi.demo.mapper.BoardMapper;
 import com.suhoi.demo.model.Board;
 import com.suhoi.demo.model.User;
@@ -38,17 +39,37 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void update(BoardUpdateDto dto) {
-
+    public void update(BoardUpdateDto dto, Long id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Board with id " + id + " not found"));
+        boardMapper.update(dto, board);
+        if (board.getCreator().getId().equals(userUtils.getCurrentUser().getId())) {
+            boardRepository.save(board);
+        } else {
+            throw new AccessPermissionDeniedException("You cant update with board");
+        }
     }
 
     @Override
     public void delete(Long id) {
-
+        List<Board> boardsByCreatorId = boardRepository.findBoardsByCreatorId(userUtils.getCurrentUser().getId());
+        Board candidateForDeletion = null;
+        for (Board board : boardsByCreatorId) {
+            if (board.getCreator().equals(userUtils.getCurrentUser().getId())) {
+                candidateForDeletion = board;
+            }
+        }
+        if (candidateForDeletion != null) {
+            boardRepository.delete(candidateForDeletion);
+        } else {
+            throw new DataNotFoundException("Data not found");
+        }
     }
 
     @Override
-    public List<BoardDto> getAll() {
-        return List.of();
+    public List<Board> getAll() {
+//        List<Board> boards = userUtils.getCurrentUser().getBoards();
+        List<Board> boards = boardRepository.findBoardsByMembersId(userUtils.getCurrentUser().getId());
+        return boards;
     }
 }

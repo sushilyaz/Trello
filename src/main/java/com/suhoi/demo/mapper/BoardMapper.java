@@ -2,7 +2,6 @@ package com.suhoi.demo.mapper;
 
 
 import com.suhoi.demo.dto.BoardCreateDto;
-import com.suhoi.demo.dto.BoardDto;
 import com.suhoi.demo.dto.BoardUpdateDto;
 import com.suhoi.demo.model.Board;
 import com.suhoi.demo.model.User;
@@ -26,7 +25,5 @@ public abstract class BoardMapper {
     //@Mapping(target = "members", source = "members")
     //public abstract BoardDto map(Board board, List<User> moderators, List<User> members);
 
-    @Mapping(target = "moderators", source = "moderators")
-    @Mapping(target = "members", source = "members")
-    public abstract void update(BoardUpdateDto dto, List<User> moderators, List<User> members, @MappingTarget Board board);
+    public abstract void update(BoardUpdateDto dto, @MappingTarget Board board);
 }
