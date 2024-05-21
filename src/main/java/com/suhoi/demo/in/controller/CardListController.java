@@ -56,4 +56,5 @@ public class CardListController {
         cardListService.delete(boardId, cardListId);
         return ResponseEntity.noContent().build();
     }
+    // ДОПИСАТЬ АПДЕЙТ))
 }

@@ -101,6 +101,7 @@
             <column name="status" type="VARCHAR(100)" remarks="card status"/>
             <column name="importance" type="VARCHAR(100)" remarks="importance of card"/>
             <column name="deadline" type="DATE" remarks="deadline of card"/>
+            <column name="burned" type="BOOLEAN" remarks="if tasks of card not complete, set flag true"/>
             <column name="creator_id" type="BIGINT" remarks="creator of boards">
                 <constraints foreignKeyName="fk_users_id" references="task_manager.users(id)" nullable="false"/>
             </column>

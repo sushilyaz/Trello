@@ -1,5 +1,6 @@
 package com.suhoi.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,9 +25,11 @@ public class Card extends BaseEntity {
 
     private String importance;
 
+    @JsonIgnore
     @ManyToMany
     private List<User> assignees;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_lists_id")
     private CardList cardList;
@@ -35,4 +38,6 @@ public class Card extends BaseEntity {
     private List<Task> task;
 
     private LocalDate deadline;
+
+    private boolean burned;
 }

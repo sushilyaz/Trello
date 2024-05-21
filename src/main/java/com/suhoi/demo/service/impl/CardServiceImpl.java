@@ -6,16 +6,14 @@ import com.suhoi.demo.exception.AccessPermissionDeniedException;
 import com.suhoi.demo.exception.DataNotFoundException;
 import com.suhoi.demo.mapper.CardMapper;
 import com.suhoi.demo.model.Card;
-import com.suhoi.demo.model.Status;
-import com.suhoi.demo.model.User;
+import com.suhoi.demo.model.CardList;
+import com.suhoi.demo.repository.CardListRepository;
 import com.suhoi.demo.repository.CardRepository;
-import com.suhoi.demo.repository.UserRepository;
 import com.suhoi.demo.service.CardService;
 import com.suhoi.demo.util.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,14 +22,15 @@ import java.util.Optional;
 public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
-    private final UserRepository userRepository;
+    private final CardListRepository cardListRepository;
     private final CardMapper cardMapper;
     private final UserUtils userUtils;
 
     @Override
-    public Card createCard(CardCreateDto dto) {
+    public Card createCard(CardCreateDto dto, Long cardListId) {
+        CardList cardList = cardListRepository.findById(cardListId).orElseThrow(() -> new DataNotFoundException("CardList not found"));
         Card card = cardMapper.map(dto);
-
+        card.setCardList(cardList);
         return cardRepository.save(card);
     }
 
@@ -55,13 +54,18 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void deleteCardById(Long cardId) {
-        Card card = cardRepository.findById(cardId)
+    public void deleteCardById(Long cardId, Long cardListId) {
+        Card card = cardRepository.findCardByIdAndCardListId(cardId, cardListId)
                 .orElseThrow(() -> new DataNotFoundException("Card not found"));
         if (card.getCreator().equals(userUtils.getCurrentUser())) {
             cardRepository.delete(card);
         } else {
             throw new AccessPermissionDeniedException("You do not have permission to delete this card ");
         }
+    }
+
+    @Override
+    public List<Card> findBurnedCards(Long cardListId) {
+        return cardRepository.findCardsByCardListIdAndBurned(cardListId, true);
     }
 }

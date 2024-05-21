@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CardService {
 
-    Card createCard(CardCreateDto dto);
+    Card createCard(CardCreateDto dto, Long cardListId);
 
     Card findCardById(Long cardId, Long cardListId);
 
@@ -16,5 +16,7 @@ public interface CardService {
 
     void update (CardUpdateDto dto, Long cardId, Long cardListId);
 
-    void deleteCardById(Long cardId);
+    void deleteCardById(Long cardId, Long cardListId);
+
+    List<Card> findBurnedCards(Long cardListId);
 }

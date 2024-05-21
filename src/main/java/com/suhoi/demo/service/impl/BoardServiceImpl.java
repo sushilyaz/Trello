@@ -33,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
         User currentUser = userUtils.getCurrentUser();
         members.add(currentUser);
         moderators.add(currentUser);
-        Board board = boardMapper.map(dto, members, moderators);
+        Board board = boardMapper.map(dto, moderators, members);
         board.setCreator(currentUser);
         boardRepository.save(board);
         return board;
