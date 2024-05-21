@@ -1,5 +1,6 @@
 package com.suhoi.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
@@ -11,13 +12,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "card_lists", schema = "task_manager")
-
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CardList extends BaseEntity {
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 }

@@ -65,7 +65,7 @@
 
     <changeSet id="5" author="suhoi">
         <createTable schemaName="task_manager" tableName="card_lists">
-            <column name="id" type="BIGINT" remarks="card_lists id">
+            <column name="id" type="BIGSERIAL" remarks="card_lists id">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)" remarks="title of card_lists">
@@ -87,7 +87,7 @@
 
     <changeSet id="6" author="suhoi">
         <createTable schemaName="task_manager" tableName="cards">
-            <column name="id" type="BIGINT" remarks="card id">
+            <column name="id" type="BIGSERIAL" remarks="card id">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)" remarks="title of card">
@@ -123,7 +123,7 @@
 
     <changeSet id="8" author="suhoi">
         <createTable schemaName="task_manager" tableName="tasks">
-            <column name="id" type="BIGINT" remarks="task id">
+            <column name="id" type="BIGSERIAL" remarks="task id">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)" remarks="title of card_lists">

@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Board with id " + id + " not found"));
         boardMapper.update(dto, board);
-        if (board.getCreator().getId().equals(userUtils.getCurrentUser().getId())) {
+        if (board.getCreator().getId().equals(userUtils.getCurrentUser().getId()) && board.getModerators().contains(userUtils.getCurrentUser())) {
             boardRepository.save(board);
         } else {
             throw new AccessPermissionDeniedException("You cant update with board");
@@ -55,7 +56,7 @@ public class BoardServiceImpl implements BoardService {
         List<Board> boardsByCreatorId = boardRepository.findBoardsByCreatorId(userUtils.getCurrentUser().getId());
         Board candidateForDeletion = null;
         for (Board board : boardsByCreatorId) {
-            if (board.getCreator().equals(userUtils.getCurrentUser().getId())) {
+            if (board.getCreator().getId().equals(userUtils.getCurrentUser().getId()) && board.getModerators().contains(userUtils.getCurrentUser())) {
                 candidateForDeletion = board;
             }
         }
@@ -69,7 +70,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Board> getAll() {
 //        List<Board> boards = userUtils.getCurrentUser().getBoards();
-        List<Board> boards = boardRepository.findBoardsByMembersId(userUtils.getCurrentUser().getId());
-        return boards;
+        return boardRepository.findBoardsByMembersId(userUtils.getCurrentUser().getId());
+    }
+
+    @Override
+    public Board findById(Long id) {
+        Board board = boardRepository.findByIdAndUserId(userUtils.getCurrentUser().getId(), id)
+                .orElseThrow(() -> new DataNotFoundException("Board with id " + id + " not found"));
+        if (board.getCreator().getId().equals(userUtils.getCurrentUser().getId()) && board.getModerators().contains(userUtils.getCurrentUser())) {
+            return board;
+        } else {
+            throw new AccessPermissionDeniedException("You cant open with board");
+        }
     }
 }

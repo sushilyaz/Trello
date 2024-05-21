@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends CrudRepository<Board, Long> {
@@ -17,4 +18,6 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     List<Board> findBoardsByCreatorId(@Param("userId") Long userId);
 
+    @Query("select b from Board b join b.members m where m.id = :userId and b.id = :id")
+    Optional<Board> findByIdAndUserId(@Param("userId") Long userId, @Param("id") Long id);
 }
