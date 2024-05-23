@@ -1,19 +1,20 @@
 package com.suhoi.demo.service;
 
 import com.suhoi.demo.dto.TaskCreateDto;
-import com.suhoi.demo.dto.TaskUpdateDto;
+import com.suhoi.demo.dto.TaskDto;
 import com.suhoi.demo.model.Task;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TaskService {
 
-    Task create(TaskCreateDto dto);
+    Task create(TaskCreateDto dto, Long boardId, Long cardId);
 
-    Optional<Task> findById(Long id, Long cardId);
+    TaskDto findById(Long id, Long boardId);
 
-    List<Task> findAllByCard(Long cardId);
+    List<TaskDto> findAllByCard(Long cardId, Long boardId);
 
-    void update(TaskUpdateDto dto, Long id, Long cardId);
+    TaskDto update(Long id, Long cardId);
+
+    void delete(Long id, Long boardId);
 }

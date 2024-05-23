@@ -1,5 +1,6 @@
 package com.suhoi.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class Task extends BaseEntity {
     @Column(name = "is_complete")
     private boolean isComplete;
 
-    @ManyToOne
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Card card;
 }

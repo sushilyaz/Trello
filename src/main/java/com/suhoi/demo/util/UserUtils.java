@@ -3,7 +3,6 @@ package com.suhoi.demo.util;
 import com.suhoi.demo.model.User;
 import com.suhoi.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

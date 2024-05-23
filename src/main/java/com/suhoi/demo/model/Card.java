@@ -1,5 +1,6 @@
 package com.suhoi.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class Card extends BaseEntity {
     @JoinColumn(name = "card_lists_id")
     private CardList cardList;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "card", fetch = FetchType.LAZY)
     private List<Task> task;
 
