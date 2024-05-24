@@ -42,7 +42,7 @@ public class CardServiceImpl implements CardService {
     public CardDto findCardById(Long cardId, Long cardListId, Long boardId) {
         Card card = cardRepository.findCardByIdAndCardListId(cardId, cardListId)
                 .orElseThrow(() -> new DataNotFoundException("Data Not Found"));
-
+        card.getCardList().getBoard().getMembers().contains(userUtils.getCurrentUser());
         return cardMapper.map(card);
     }
 

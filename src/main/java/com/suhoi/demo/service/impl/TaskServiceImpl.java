@@ -32,7 +32,7 @@ public class TaskServiceImpl implements TaskService {
 
     @CheckAccessByBoard(value = AccessType.MODERATOR)
     @Override
-    public Task create(TaskCreateDto dto, Long boardId, Long cardId) {
+    public Task create(TaskCreateDto dto, Long boardId, Long cardId, Long cardListId) {
         Task task = taskMapper.map(dto);
         Card card = cardRepository.findById(cardId)
                 .orElseThrow(() -> new DataNotFoundException("Card not found"));
@@ -42,14 +42,14 @@ public class TaskServiceImpl implements TaskService {
 
     @CheckAccessByBoard(value = AccessType.MEMBER)
     @Override
-    public TaskDto findById(Long id, Long boardId) {
+    public TaskDto findById(Long id, Long boardId, Long cardListId) {
         Task task = findById(id);
         return taskMapper.map(task);
     }
 
     @CheckAccessByBoard(value = AccessType.MEMBER)
     @Override
-    public List<TaskDto> findAllByCard(Long cardId, Long boardId) {
+    public List<TaskDto> findAllByCard(Long cardId, Long boardId, Long cardListId) {
         return taskRepository.findTasksByCardId(cardId).stream()
                 .map(taskMapper::map)
                 .collect(Collectors.toList());
@@ -58,7 +58,7 @@ public class TaskServiceImpl implements TaskService {
     @CheckAccessByBoard(value = AccessType.MEMBER)
     @Transactional
     @Override
-    public TaskDto update(Long id, Long cardId) {
+    public TaskDto update(Long id, Long cardId, Long boardId, Long cardListId) {
         Task task = findById(id);
         Card card = task.getCard();
         List<User> assignees = card.getAssignees();
@@ -75,7 +75,7 @@ public class TaskServiceImpl implements TaskService {
 
     @CheckAccessByBoard(value = AccessType.MODERATOR)
     @Override
-    public void delete(Long id, Long boardId) {
+    public void delete(Long id, Long boardId, Long cardListId) {
         Task task = findById(id);
         taskRepository.delete(task);
     }

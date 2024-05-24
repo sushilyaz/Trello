@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface TaskService {
 
-    Task create(TaskCreateDto dto, Long boardId, Long cardId);
+    Task create(TaskCreateDto dto, Long boardId, Long cardId, Long cardListId);
 
-    TaskDto findById(Long id, Long boardId);
+    TaskDto findById(Long id, Long boardId, Long cardListId);
 
-    List<TaskDto> findAllByCard(Long cardId, Long boardId);
+    List<TaskDto> findAllByCard(Long cardId, Long boardId, Long cardListId);
 
-    TaskDto update(Long id, Long cardId);
+    TaskDto update(Long id, Long cardId, Long boardId, Long cardListId);
 
-    void delete(Long id, Long boardId);
+    void delete(Long id, Long boardId, Long cardListId);
 }

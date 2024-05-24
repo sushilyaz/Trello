@@ -30,13 +30,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board create(BoardCreateDto dto) {
-        List<User> members = userRepository.findByEmailIn(dto.getMembers());
-        List<User> moderators = userRepository.findByEmailIn(dto.getModerators());
-        User currentUser = userUtils.getCurrentUser();
-        members.add(currentUser);
-        moderators.add(currentUser);
         Board board = boardMapper.map(dto);
-        board.setCreator(currentUser);
         boardRepository.save(board);
         return board;
     }
@@ -68,7 +62,6 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
-    @CheckAccessByBoard(value = AccessType.MEMBER)
     @Override
     public List<BoardDto> getAll() {
         List<Board> boards = boardRepository.findBoardsByMembersId(userUtils.getCurrentUser().getId());

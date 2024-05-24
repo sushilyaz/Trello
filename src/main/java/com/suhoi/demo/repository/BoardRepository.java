@@ -12,8 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends CrudRepository<Board, Long> {
-    @EntityGraph(value = "GetModeratorsAndMembers", type = EntityGraph.EntityGraphType.LOAD)
-    @Query("select b from Board b join b.members m where m.id = :userId")
+    @Query("select distinct b from Board b left join fetch b.moderators left join fetch b.members where :userId in (select um.id from b.members um)")
     List<Board> findBoardsByMembersId(@Param("userId") Long userId);
 
     List<Board> findBoardsByCreatorId(@Param("userId") Long userId);

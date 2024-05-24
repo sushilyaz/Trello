@@ -1,8 +1,6 @@
 package com.suhoi.demo.component;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +15,5 @@ public class JacksonConfig {
                 .modulesToInstall(new JsonNullableModule());
         return builder;
     }
-    @Bean
-    protected Module module() {
-        return new Hibernate6Module();
-    }
+
 }

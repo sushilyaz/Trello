@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -22,19 +23,7 @@ public class CheckAccessByBoardAspect {
 
     @Before("@annotation(checkAccessByBoard)")
     public void checkAccess(JoinPoint joinPoint, CheckAccessByBoard checkAccessByBoard) {
-        Object[] args = joinPoint.getArgs();
-        Long boardId = null;
-
-        for (Object arg : args) {
-            if (arg instanceof Long) {
-                boardId = (Long) arg;
-                break;
-            }
-        }
-
-        if (boardId == null) {
-            throw new IllegalArgumentException("Board ID not found in method arguments");
-        }
+        Long boardId = getaLong(joinPoint);
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new DataNotFoundException("Board not found"));
         User currentUser = userUtils.getCurrentUser();
@@ -53,5 +42,25 @@ public class CheckAccessByBoardAspect {
             default:
                 throw new IllegalArgumentException("Unknown access type");
         }
+    }
+
+    private static Long getaLong(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        String[] parameterNames = methodSignature.getParameterNames();
+
+        Long boardId = null;
+
+        for (int i = 0; i < args.length; i++) {
+            if ("boardId".equals(parameterNames[i]) && args[i] instanceof Long) {
+                boardId = (Long) args[i];
+                break;
+            }
+        }
+
+        if (boardId == null) {
+            throw new IllegalArgumentException("Board ID not found in method arguments");
+        }
+        return boardId;
     }
 }

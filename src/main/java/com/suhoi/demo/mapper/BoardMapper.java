@@ -12,6 +12,7 @@ import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(
         uses = {JsonNullableMapper.class},
@@ -31,22 +32,22 @@ public abstract class BoardMapper {
     @Mapping(target = "creator", ignore = true)
     public abstract Board map(BoardCreateDto dto);
 
-    protected List<User> mapModerators(BoardCreateDto dto) {
-        List<User> moderators = userRepository.findByEmailIn(dto.getModerators());
+    protected Set<User> mapModerators(BoardCreateDto dto) {
+        Set<User> moderators = userRepository.findByEmailIn(dto.getModerators());
         moderators.add(userUtils.getCurrentUser());
         return moderators;
     }
 
-    protected List<User> mapMembers(BoardCreateDto dto) {
-        List<User> members = userRepository.findByEmailIn(dto.getMembers());
+    protected Set<User> mapMembers(BoardCreateDto dto) {
+        Set<User> members = userRepository.findByEmailIn(dto.getMembers());
         members.add(userUtils.getCurrentUser());
         return members;
     }
 
     @AfterMapping
     protected void afterMappingCreate(@MappingTarget Board board, BoardCreateDto dto) {
-        List<User> moderators = userRepository.findByEmailIn(dto.getModerators());
-        List<User> members = userRepository.findByEmailIn(dto.getMembers());
+        Set<User> moderators = userRepository.findByEmailIn(dto.getModerators());
+        Set<User> members = userRepository.findByEmailIn(dto.getMembers());
         User currentUser = userUtils.getCurrentUser();
         moderators.add(currentUser);
         members.add(currentUser);
@@ -62,8 +63,8 @@ public abstract class BoardMapper {
 
     @AfterMapping
     protected void afterMappingDto(@MappingTarget BoardDto dto, Board board) {
-        List<User> members = board.getMembers();
-        List<User> moderators = board.getModerators();
+        Set<User> members = board.getMembers();
+        Set<User> moderators = board.getModerators();
         User creator = board.getCreator();
         dto.setMembers(members.stream().map(User::getEmail).toList());
         dto.setModerators(moderators.stream().map(User::getEmail).toList());

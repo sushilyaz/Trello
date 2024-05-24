@@ -1,13 +1,9 @@
 package com.suhoi.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.util.List;
 import java.util.Set;
 
 @NamedEntityGraph(
@@ -23,11 +19,12 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
+@SuperBuilder
 public class Board extends BaseEntity {
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<User> moderators;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<User> moderators;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<User> members;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<User> members;
 }

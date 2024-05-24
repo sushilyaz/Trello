@@ -28,6 +28,7 @@ ext {
 	mapstructLombokVersion = '0.2.0'
 	jsonNullableVersion = '0.2.6'
 	springVersion = '6.1.4'
+	postgresContainerVersion = '1.19.8'
 }
 
 dependencies {
@@ -41,17 +42,13 @@ dependencies {
 
 	implementation "net.lbruun.springboot:preliquibase-spring-boot-starter:${preLiquibaseVersion}"
 	implementation "org.postgresql:postgresql:${postgresVersion}"
-// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-hibernate6
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate6:2.17.1'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.liquibase:liquibase-core'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -59,6 +56,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation "org.testcontainers:postgresql:${postgresContainerVersion}"
+	runtimeOnly 'com.h2database:h2'
+
 }
 
 tasks.named('test') {

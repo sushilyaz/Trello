@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.web.bind.annotation.Mapping;
 
 @Entity
@@ -14,12 +15,13 @@ import org.springframework.web.bind.annotation.Mapping;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
+@SuperBuilder
 public class Task extends BaseEntity {
 
     @Column(name = "is_complete")
     private boolean isComplete;
 
     @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Card card;
 }

@@ -1,13 +1,12 @@
 package com.suhoi.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,19 +15,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-//@NamedEntityGraph(
-//        name = "GetBoards",
-//        attributeNodes = {
-//                @NamedAttributeNode("boards")
-//        }
-//)
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "users", schema = "task_manager")
 @EntityListeners(AuditingEntityListener.class)
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class User extends ParentForJsonOfNullable implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
