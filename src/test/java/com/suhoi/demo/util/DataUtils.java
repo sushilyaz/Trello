@@ -2,12 +2,50 @@ package com.suhoi.demo.util;
 
 import com.suhoi.demo.model.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 public class DataUtils {
+
+    public static Task getTaskPersist() {
+        Task task = new Task();
+        task.setId(1L);
+        task.setTitle("Sample Task");
+        task.setDescription("Sample Description");
+        task.setCard(getCardPersist());
+        return task;
+    }
+
+    public static Card getCardPersist() {
+        Card card = new Card();
+        card.setId(1L);
+        card.setTitle("Sample Card");
+        card.setDescription("Sample Description");
+        card.setCreator(getJohnPersist());
+        card.setStatus(Status.NEW);
+        card.setImportance("High");
+        card.setAssignees(List.of(new User()));
+        card.setDeadline(LocalDate.now());
+        card.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        card.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        card.setCardList(getCardListPersist());
+        return card;
+    }
+
+    public static CardList getCardListPersist() {
+        CardList cardList = new CardList();
+        cardList.setId(1L);
+        cardList.setTitle("Sample CardList");
+        cardList.setDescription("Sample Description");
+        cardList.setBoard(getBoardPersist());
+        cardList.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        cardList.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        return cardList;
+    }
 
     public static Card getCardTransient() {
         return Card.builder()
