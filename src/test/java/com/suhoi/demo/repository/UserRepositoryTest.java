@@ -1,13 +1,14 @@
 package com.suhoi.demo.repository;
 
 import com.suhoi.demo.container.PostgresContainer;
+import com.suhoi.demo.model.CardList;
 import com.suhoi.demo.model.User;
 import com.suhoi.demo.util.DataUtils;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.hibernate.Hibernate;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -21,12 +22,25 @@ class UserRepositoryTest extends PostgresContainer {
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeEach
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @Autowired
+    private CardListRepository cardListRepository;
+
+    @Autowired
+    private CardRepository cardRepository;
+
+    @AfterEach
     public void setUp() {
+        cardRepository.deleteAll();
+        cardListRepository.deleteAll();
+        boardRepository.deleteAll();
         userRepository.deleteAll();
         System.out.println("delete all");
     }
 
+    @Order(1)
     @Test
     @DisplayName("Test save user functionality")
     public void givenUser_whenSave_thenUserIsSaved() {

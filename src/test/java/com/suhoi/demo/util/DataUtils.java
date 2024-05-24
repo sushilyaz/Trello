@@ -109,7 +109,7 @@ public class DataUtils {
     public static User getJohnPersist() {
         return User.builder()
                 .id(1L)
-                .username("John")
+                .username("Johns")
                 .email("john@gmail.com")
                 .password("password1")
                 .build();

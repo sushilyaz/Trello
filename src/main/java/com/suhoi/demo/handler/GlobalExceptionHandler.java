@@ -1,6 +1,7 @@
 package com.suhoi.demo.handler;
 
 import com.suhoi.demo.exception.AccessPermissionDeniedException;
+import com.suhoi.demo.exception.DataAlreadyExistException;
 import com.suhoi.demo.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -49,6 +50,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleAccessDeniedException(AccessPermissionDeniedException exception) {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
+                .body(exception.getMessage());
+    }
+
+    @ExceptionHandler(DataAlreadyExistException.class)
+    public ResponseEntity<String> handleDataAlreadyExistException(DataAlreadyExistException exception) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(exception.getMessage());
     }
 }
