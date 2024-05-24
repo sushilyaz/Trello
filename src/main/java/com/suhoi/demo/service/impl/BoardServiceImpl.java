@@ -1,10 +1,13 @@
 package com.suhoi.demo.service.impl;
 
+import com.suhoi.demo.annotation.CheckAccessByBoard;
 import com.suhoi.demo.dto.BoardCreateDto;
+import com.suhoi.demo.dto.BoardDto;
 import com.suhoi.demo.dto.BoardUpdateDto;
 import com.suhoi.demo.exception.AccessPermissionDeniedException;
 import com.suhoi.demo.exception.DataNotFoundException;
 import com.suhoi.demo.mapper.BoardMapper;
+import com.suhoi.demo.model.AccessType;
 import com.suhoi.demo.model.Board;
 import com.suhoi.demo.model.User;
 import com.suhoi.demo.repository.BoardRepository;
@@ -15,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,26 +35,25 @@ public class BoardServiceImpl implements BoardService {
         User currentUser = userUtils.getCurrentUser();
         members.add(currentUser);
         moderators.add(currentUser);
-        Board board = boardMapper.map(dto, moderators, members);
+        Board board = boardMapper.map(dto);
         board.setCreator(currentUser);
         boardRepository.save(board);
         return board;
     }
 
+    @CheckAccessByBoard(value = AccessType.MODERATOR)
     @Override
-    public void update(BoardUpdateDto dto, Long id) {
-        Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Board with id " + id + " not found"));
+    public BoardDto update(BoardUpdateDto dto, Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new DataNotFoundException("Board with id " + boardId + " not found"));
         boardMapper.update(dto, board);
-        if (board.getCreator().getId().equals(userUtils.getCurrentUser().getId()) && board.getModerators().contains(userUtils.getCurrentUser())) {
-            boardRepository.save(board);
-        } else {
-            throw new AccessPermissionDeniedException("You cant update with board");
-        }
+        boardRepository.save(board);
+        return boardMapper.map(board);
     }
 
+    @CheckAccessByBoard(value = AccessType.MODERATOR)
     @Override
-    public void delete(Long id) {
+    public void delete(Long boardId) {
         List<Board> boardsByCreatorId = boardRepository.findBoardsByCreatorId(userUtils.getCurrentUser().getId());
         Board candidateForDeletion = null;
         for (Board board : boardsByCreatorId) {
@@ -67,20 +68,20 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
+    @CheckAccessByBoard(value = AccessType.MEMBER)
     @Override
-    public List<Board> getAll() {
-//        List<Board> boards = userUtils.getCurrentUser().getBoards();
-        return boardRepository.findBoardsByMembersId(userUtils.getCurrentUser().getId());
+    public List<BoardDto> getAll() {
+        List<Board> boards = boardRepository.findBoardsByMembersId(userUtils.getCurrentUser().getId());
+        return boards.stream()
+                .map(boardMapper::map)
+                .toList();
     }
 
+    @CheckAccessByBoard(value = AccessType.MEMBER)
     @Override
-    public Board findById(Long id) {
-        Board board = boardRepository.findByIdAndUserId(userUtils.getCurrentUser().getId(), id)
-                .orElseThrow(() -> new DataNotFoundException("Board with id " + id + " not found"));
-        if (board.getCreator().getId().equals(userUtils.getCurrentUser().getId()) && board.getModerators().contains(userUtils.getCurrentUser())) {
-            return board;
-        } else {
-            throw new AccessPermissionDeniedException("You cant open with board");
-        }
+    public BoardDto findById(Long boardId) {
+        Board board = boardRepository.findByIdAndUserId(userUtils.getCurrentUser().getId(), boardId)
+                .orElseThrow(() -> new DataNotFoundException("Board with id " + boardId + " not found"));
+        return boardMapper.map(board);
     }
 }

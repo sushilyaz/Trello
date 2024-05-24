@@ -1,9 +1,6 @@
 package com.suhoi.demo.mapper;
 
-import com.suhoi.demo.dto.BoardCreateDto;
-import com.suhoi.demo.dto.CardListCreateDto;
-import com.suhoi.demo.dto.CardListUpdateDto;
-import com.suhoi.demo.model.Board;
+import com.suhoi.demo.dto.*;
 import com.suhoi.demo.model.CardList;
 import org.mapstruct.*;
 
@@ -15,6 +12,7 @@ import org.mapstruct.*;
 )
 public abstract class CardListMapper {
 
+    public abstract CardListDto map(CardList cardList);
     public abstract CardList map(CardListCreateDto dto);
     public abstract void update(CardListUpdateDto dto, @MappingTarget CardList cardList);
 }

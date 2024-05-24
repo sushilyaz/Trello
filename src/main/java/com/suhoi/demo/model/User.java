@@ -1,6 +1,7 @@
 package com.suhoi.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -36,40 +37,42 @@ public class User extends ParentForJsonOfNullable implements UserDetails {
     @NotBlank
     private String username;
 
+    @JsonIgnore
     @NotNull
     private String password;
 
     @Email
     private String email;
 
-//    @ManyToMany(mappedBy = "members")
-//    @JsonBackReference
-//    private List<Board> boards;
-
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<GrantedAuthority>();
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

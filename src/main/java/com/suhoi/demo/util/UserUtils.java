@@ -1,5 +1,6 @@
 package com.suhoi.demo.util;
 
+import com.suhoi.demo.exception.DataNotFoundException;
 import com.suhoi.demo.model.User;
 import com.suhoi.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,6 @@ public class UserUtils {
             return null;
         }
         String name = authentication.getName();
-        Optional<User> userOptional = userRepository.findByEmail(name);
-        if (userOptional.isPresent()) {
-            Long userId = userOptional.get().getId();
-            User user = userRepository.findById(userId).orElse(null);
-            return user;
-        }
-        return null;
+        return userRepository.findByEmail(name).orElseThrow(() -> new DataNotFoundException("User Not Found"));
     }
 }

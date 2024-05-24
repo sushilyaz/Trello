@@ -1,6 +1,7 @@
 package com.suhoi.demo.mapper;
 
 import com.suhoi.demo.dto.CardCreateDto;
+import com.suhoi.demo.dto.CardDto;
 import com.suhoi.demo.dto.CardUpdateDto;
 import com.suhoi.demo.exception.DataNotFoundException;
 import com.suhoi.demo.model.Card;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Mapper(
         uses = {JsonNullableMapper.class},
@@ -30,6 +32,16 @@ public abstract class CardMapper {
 
     @Autowired
     private UserUtils userUtils;
+
+
+    @Mapping(target = "assignees", source = "assignees")
+    public abstract CardDto map(Card card);
+
+    protected List<String> mapAssignees(List<User> assignees) {
+        return assignees.stream()
+                .map(User::getEmail)
+                .collect(Collectors.toList());
+    }
 
     @Mapping(target = "assignees", source = "assignees")
     public abstract Card map(CardCreateDto dto);

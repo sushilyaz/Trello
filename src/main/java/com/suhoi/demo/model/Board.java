@@ -26,9 +26,8 @@ import java.util.Set;
 public class Board extends BaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<User> moderators;
+    private List<User> moderators;
 
     @ManyToMany(cascade = CascadeType.ALL)
-//    @JsonManagedReference
-    private Set<User> members;
+    private List<User> members;
 }

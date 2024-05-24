@@ -1,5 +1,6 @@
 package com.suhoi.demo.in.controller;
 
+import com.suhoi.demo.annotation.Loggable;
 import com.suhoi.demo.dto.TaskCreateDto;
 import com.suhoi.demo.dto.TaskDto;
 import com.suhoi.demo.model.Task;
@@ -21,6 +22,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
+    @Loggable
     @PostMapping
     public ResponseEntity<Task> createTask(@Valid @RequestBody TaskCreateDto dto,
                                            @PathVariable("boardId") Long boardId,
@@ -39,6 +41,7 @@ public class TaskController {
         }
     }
 
+    @Loggable
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> getTask(@PathVariable("boardId") Long boardId,
                                            @PathVariable("taskId") Long taskId) {
@@ -46,6 +49,7 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
+    @Loggable
     @GetMapping
     public ResponseEntity<List<TaskDto>> getTasks(@PathVariable("boardId") Long boardId,
                                                   @PathVariable("cardId") Long cardId) {
@@ -53,6 +57,7 @@ public class TaskController {
         return ResponseEntity.ok(allByCard);
     }
 
+    @Loggable
     @PatchMapping("/{taskId}")
     public ResponseEntity<TaskDto> completeTask(@PathVariable("taskId") Long taskId,
                                                 @PathVariable("cardId") Long cardId) {
@@ -60,6 +65,7 @@ public class TaskController {
         return ResponseEntity.ok(taskDto);
     }
 
+    @Loggable
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable("taskId") Long taskId,
                                            @PathVariable("boardId") Long boardId) {

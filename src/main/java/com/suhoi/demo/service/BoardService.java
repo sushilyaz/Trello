@@ -1,6 +1,7 @@
 package com.suhoi.demo.service;
 
 import com.suhoi.demo.dto.BoardCreateDto;
+import com.suhoi.demo.dto.BoardDto;
 import com.suhoi.demo.dto.BoardUpdateDto;
 import com.suhoi.demo.model.Board;
 
@@ -10,11 +11,11 @@ public interface BoardService {
 
     Board create(BoardCreateDto dto);
 
-    void update(BoardUpdateDto dto, Long id);
+    BoardDto update(BoardUpdateDto dto, Long boardId);
 
-    void delete(Long id);
+    void delete(Long boardId);
 
-    List<Board> getAll();
+    List<BoardDto> getAll();
 
-    Board findById(Long id);
+    BoardDto findById(Long boardId);
 }

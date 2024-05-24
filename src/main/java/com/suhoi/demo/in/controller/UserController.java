@@ -1,5 +1,6 @@
 package com.suhoi.demo.in.controller;
 
+import com.suhoi.demo.annotation.Loggable;
 import com.suhoi.demo.dto.UserCreateDto;
 import com.suhoi.demo.model.User;
 import com.suhoi.demo.service.UserService;
@@ -21,6 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Loggable
     @PostMapping("/register")
     public ResponseEntity<?> create(@Valid @RequestBody UserCreateDto userCreateDto,
                                     BindingResult bindingResult,

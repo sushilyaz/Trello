@@ -8,7 +8,6 @@ import com.suhoi.demo.model.Board;
 import com.suhoi.demo.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -24,6 +23,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    @Loggable
     @PostMapping()
     public ResponseEntity<Board> createBoard(@Valid @RequestBody BoardCreateDto dto,
                                              BindingResult bindingResult,
@@ -39,31 +39,33 @@ public class BoardController {
         }
     }
 
+    @Loggable
     @GetMapping("/{id}")
-    public ResponseEntity<Board> getBoard(@PathVariable Long id) {
-        Board board = boardService.findById(id);
+    public ResponseEntity<BoardDto> getBoard(@PathVariable Long id) {
+        BoardDto board = boardService.findById(id);
         return ResponseEntity.ok(board);
     }
     @Loggable
-    @GetMapping()
-    public ResponseEntity<List<Board>> getBoards() {
+    @GetMapping
+    public ResponseEntity<List<BoardDto>> getBoards() {
+        List<BoardDto> boardDtos = boardService.getAll();
         return ResponseEntity
-                .ok(boardService.getAll());
+                .ok(boardDtos);
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteBoard(@RequestParam Long id) {
+    @Loggable
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBoard(@RequestParam Long id) {
         boardService.delete(id);
         return ResponseEntity
                 .noContent()
                 .build();
     }
 
+    @Loggable
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateBoard(@Valid @RequestBody BoardUpdateDto dto, @PathVariable Long id) {
-        boardService.update(dto, id);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Data updated successfully");
+    public ResponseEntity<BoardDto> updateBoard(@Valid @RequestBody BoardUpdateDto dto, @PathVariable Long id) {
+        BoardDto boardDto = boardService.update(dto, id);
+        return ResponseEntity.ok(boardDto);
     }
 }
