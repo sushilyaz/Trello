@@ -55,7 +55,7 @@ public class BoardController {
 
     @Loggable
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBoard(@RequestParam Long id) {
+    public ResponseEntity<Void> deleteBoard(@PathVariable Long id) {
         boardService.delete(id);
         return ResponseEntity
                 .noContent()

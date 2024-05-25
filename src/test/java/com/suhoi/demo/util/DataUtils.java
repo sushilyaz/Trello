@@ -1,15 +1,28 @@
 package com.suhoi.demo.util;
 
+import com.suhoi.demo.dto.CardDto;
+import com.suhoi.demo.dto.TaskDto;
 import com.suhoi.demo.model.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
 public class DataUtils {
+
+    public static TaskDto getTaskDto() {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setTitle("Sample Task");
+        taskDto.setDescription("This is a sample task description.");
+        taskDto.setComplete(false);
+        taskDto.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
+        taskDto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        return taskDto;
+    }
 
     public static Task getTaskPersist() {
         Task task = new Task();
@@ -19,7 +32,19 @@ public class DataUtils {
         task.setCard(getCardPersist());
         return task;
     }
-
+    public static CardDto getCardDto() {
+        CardDto cardDto = new CardDto();
+        cardDto.setTitle("Sample Title");
+        cardDto.setDescription("Sample Description");
+        cardDto.setStatus("NEW");
+        cardDto.setImportance("High");
+        cardDto.setAssignees(List.of("user1@example.com", "user2@example.com"));
+        cardDto.setDeadline(LocalDate.now().plusDays(10));
+        cardDto.setBurned(false);
+        cardDto.setCreatedAt(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
+        cardDto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        return cardDto;
+    }
     public static Card getCardPersist() {
         Card card = new Card();
         card.setId(1L);

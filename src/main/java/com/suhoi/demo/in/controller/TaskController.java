@@ -26,7 +26,6 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> createTask(@Valid @RequestBody TaskCreateDto dto,
                                            @PathVariable("boardId") Long boardId,
-                                           @PathVariable Long cardListsId,
                                            @PathVariable("cardId") Long cardId,
                                            @PathVariable("cardListId") Long cardListId,
                                            BindingResult bindingResult,
@@ -36,7 +35,7 @@ public class TaskController {
         } else {
             Task task = taskService.create(dto, boardId, cardId, cardListId);
             return ResponseEntity
-                    .created(uriBuilder.path("/api/boards/" + boardId + "/card-lists/" + cardListsId + "/cards/" + cardId + "/tasks/{taskId}")
+                    .created(uriBuilder.path("/api/boards/" + boardId + "/card-lists/" + cardListId + "/cards/" + cardId + "/tasks/{taskId}")
                             .buildAndExpand(task.getId()).toUri())
                     .body(task);
         }
