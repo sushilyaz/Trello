@@ -1,6 +1,5 @@
 package com.suhoi.demo.dto;
 
-import com.suhoi.demo.model.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

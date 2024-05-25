@@ -3,10 +3,7 @@ package com.suhoi.demo.aspect;
 import com.suhoi.demo.annotation.CheckAccessByBoard;
 import com.suhoi.demo.exception.AccessPermissionDeniedException;
 import com.suhoi.demo.exception.DataNotFoundException;
-import com.suhoi.demo.model.Board;
 import com.suhoi.demo.model.CardList;
-import com.suhoi.demo.model.User;
-import com.suhoi.demo.repository.BoardRepository;
 import com.suhoi.demo.repository.CardListRepository;
 import com.suhoi.demo.util.UserUtils;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +11,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
