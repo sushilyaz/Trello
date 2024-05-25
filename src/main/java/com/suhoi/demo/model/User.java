@@ -23,7 +23,6 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 public class User extends ParentForJsonOfNullable implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

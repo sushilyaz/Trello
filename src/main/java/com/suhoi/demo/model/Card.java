@@ -20,7 +20,6 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder
 public class Card extends BaseEntity {
 
     @Enumerated(EnumType.STRING)

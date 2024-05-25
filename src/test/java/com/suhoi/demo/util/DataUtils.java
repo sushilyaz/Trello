@@ -32,6 +32,7 @@ public class DataUtils {
         task.setCard(getCardPersist());
         return task;
     }
+
     public static CardDto getCardDto() {
         CardDto cardDto = new CardDto();
         cardDto.setTitle("Sample Title");
@@ -45,6 +46,7 @@ public class DataUtils {
         cardDto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return cardDto;
     }
+
     public static Card getCardPersist() {
         Card card = new Card();
         card.setId(1L);
@@ -73,125 +75,124 @@ public class DataUtils {
     }
 
     public static Card getCardTransient() {
-        return Card.builder()
-                .title("Card Title")
-                .description("Card Description")
-                .creator(getJohnTransient())
-                .deadline(LocalDate.now().plusDays(1))
-                .cardList(getCardListTransient())
-                .burned(true)
-                .build();
+        Card card = new Card();
+        card.setTitle("Card Title");
+        card.setDescription("Card Description");
+        card.setCreator(getJohnTransient());
+        card.setDeadline(LocalDate.now().plusDays(1));
+        card.setCardList(getCardListTransient());
+        card.setBurned(true);
+        return card;
     }
 
     public static Task getTaskTransient() {
-        return Task.builder()
-                .title("Task Title")
-                .description("Task Description")
-                .creator(getJohnTransient())
-                .card(getCardTransient())
-                .build();
+        Task task = new Task();
+        task.setTitle("Task Title");
+        task.setDescription("Task Description");
+        task.setCreator(getJohnTransient());
+        task.setCard(getCardTransient());
+        return task;
     }
 
     public static Task getAnotherTaskTransient() {
-        return Task.builder()
-                .title("Another Task Title")
-                .description("Another Task Description")
-                .creator(getJohnTransient())
-                .card(getCardTransient())
-                .build();
+        Task task = new Task();
+        task.setTitle("Another Task Title");
+        task.setDescription("Another Task Description");
+        task.setCreator(getJohnTransient());
+        task.setCard(getCardTransient());
+        return task;
     }
 
     public static Card getAnotherCardTransient() {
-        return Card.builder()
-                .title("Another Card Title")
-                .description("Another Card Description")
-                .creator(getJohnTransient())
-                .deadline(LocalDate.now().minusDays(1))
-                .cardList(getCardListTransient())
-                .burned(false)
-                .build();
+        Card card = new Card();
+        card.setTitle("Another Card Title");
+        card.setDescription("Another Card Description");
+        card.setCreator(getJohnTransient());
+        card.setCardList(getCardListTransient());
+        card.setDeadline(LocalDate.now().minusDays(1));
+        card.setBurned(false);
+        return card;
     }
 
     public static CardList getCardListTransient() {
-        return CardList.builder()
-                .title("CardList Title")
-                .description("CardList Description")
-                .creator(DataUtils.getJohnTransient())
-                .board(getBoardTransient())
-                .build();
-    }
-
-    public static CardList getAnotherCardListTransient() {
-        return CardList.builder()
-                .title("Another CardList Title")
-                .description("Another CardList Description")
-                .creator(DataUtils.getJohnTransient())
-                .board(getBoardTransient())
-                .build();
+        CardList cardList = new CardList();
+        cardList.setTitle("CardList Title");
+        cardList.setDescription("CardList Description");
+        cardList.setCreator(DataUtils.getJohnTransient());
+        cardList.setBoard(getBoardTransient());
+        return cardList;
     }
 
     public static Board getBoardTransient() {
-        return Board.builder()
-                .title("Another Board Title")
-                .description("Another Board Description")
-                .members(Set.of(DataUtils.getJohnTransient()))
-                .moderators(Set.of(DataUtils.getJohnTransient()))
-                .creator(DataUtils.getJohnTransient())
-                .build();
+        Board board = new Board();
+        board.setTitle("Another Board Title");
+        board.setDescription("Another Board Description");
+        Set<User> members = new HashSet<>();
+        members.add(DataUtils.getJohnTransient());
+        board.setMembers(members);
+        Set<User> moderators = new HashSet<>();
+        moderators.add(DataUtils.getJohnTransient());
+        board.setModerators(moderators);
+        board.setCreator(DataUtils.getJohnTransient());
+        return board;
     }
 
     public static Board getAnotherBoardTransient() {
-        return Board.builder()
-                .title("Another Board Title")
-                .description("Another Board Description")
-                .members(Set.of(DataUtils.getJohnTransient()))
-                .moderators(Set.of(DataUtils.getJohnTransient()))
-                .creator(DataUtils.getJohnTransient())
-                .build();
+        Board board = new Board();
+        board.setTitle("Another Board Title");
+        board.setDescription("Another Board Description");
+        Set<User> members = new HashSet<>();
+        members.add(DataUtils.getJohnTransient());
+        board.setMembers(members);
+        Set<User> moderators = new HashSet<>();
+        moderators.add(DataUtils.getJohnTransient());
+        board.setModerators(moderators);
+        board.setCreator(DataUtils.getJohnTransient());
+        return board;
     }
 
     public static Board getBoardPersist() {
-        return Board.builder()
-                .id(1L)
-                .title("Board Title")
-                .description("Board Description")
-                .members(new HashSet<>())
-                .moderators(new HashSet<>())
-                .creator(getJohnPersist())
-                .build();
+        Board board = new Board();
+        board.setId(1L);
+        board.setTitle("Board Title");
+        board.setDescription("Board Description");
+        board.setMembers(new HashSet<>());
+        board.setModerators(new HashSet<>());
+        board.setCreator(getJohnPersist());
+        return board;
     }
 
     public static User getJohnTransient() {
-        return User.builder()
-                .username("John")
-                .email("john@gmail.com")
-                .password("password1")
-                .build();
+        User user = new User();
+        user.setUsername("John");
+        user.setEmail("john@gmail.com");
+        user.setPassword("password1");
+        return user;
     }
 
     public static User getJohnPersist() {
-        return User.builder()
-                .id(1L)
-                .username("Johns")
-                .email("john@gmail.com")
-                .password("password1")
-                .build();
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("Johns");
+        user.setEmail("john@gmail.com");
+        user.setPassword("password1");
+        return user;
     }
 
-
     public static User getMikeTransient() {
-        return User.builder()
-                .username("Mike")
-                .email("mike@gmail.com")
-                .password("password2")
-                .build();
+        User user = new User();
+        user.setUsername("Mike");
+        user.setEmail("mike@gmail.com");
+        user.setPassword("password2");
+        return user;
     }
 
     public static User getKiraTransient() {
-        return User.builder()
-                .username("Kira")
-                .email("kira@gmail.com")
-                .password("password3")
-                .build();
+        User user = new User();
+        user.setUsername("Kira");
+        user.setEmail("kira@gmail.com");
+        user.setPassword("password3");
+        return user;
     }
+
 }

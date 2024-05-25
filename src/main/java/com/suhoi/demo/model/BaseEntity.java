@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@SuperBuilder
 public abstract class BaseEntity extends ParentForJsonOfNullable{
 
     @Id

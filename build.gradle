@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.sonarqube' version '4.0.0.2929'
+	id 'jacoco'
 }
 
 group = 'com.suhoi'
@@ -62,6 +64,33 @@ dependencies {
 
 }
 
+sonar {
+	properties {
+		property 'sonar.host.url', 'http://localhost:9000'
+		property 'sonar.login', 'admin'
+		property 'sonar.password', 'qwerty'
+	}
+}
+test {
+	finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					"com/suhoi/demo/dto/*Dto.*",
+					"com/suhoi/demo/service/UserDetailService.*",
+					"com/suhoi/demo/mapper/*",
+					"com/suhoi/demo/util/*"
+			])
+		}))
+	}
+	dependsOn test // tests are required to run before generating the report
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }

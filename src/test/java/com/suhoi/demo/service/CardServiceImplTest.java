@@ -185,7 +185,7 @@ public class CardServiceImplTest {
         // given
         Card card = DataUtils.getCardPersist();
         BDDMockito.given(cardRepository.findCardByIdAndCardListId(anyLong(), anyLong())).willReturn(Optional.of(card));
-        BDDMockito.given(userUtils.getCurrentUser()).willReturn(DataUtils.getJohnPersist());
+        BDDMockito.given(userUtils.getCurrentUser()).willReturn(card.getCreator());
 
         // when
         cardService.deleteCardById(1L, 1L, 1L);

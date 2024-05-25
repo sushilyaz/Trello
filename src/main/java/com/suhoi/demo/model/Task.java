@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.Mapping;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder
 public class Task extends BaseEntity {
 
     @Column(name = "is_complete")

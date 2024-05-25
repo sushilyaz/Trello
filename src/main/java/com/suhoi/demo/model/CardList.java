@@ -14,7 +14,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder
 public class CardList extends BaseEntity {
 
     @JsonIgnore
