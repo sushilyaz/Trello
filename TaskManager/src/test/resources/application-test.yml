@@ -1,0 +1,29 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.xml
+    default-schema: task_manager
+    liquibase-schema: liquibase_service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: suhoiTest
+    password: qwerty
+    url: jdbc:postgresql://localhost:5433/suhoiTest
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  application:
+    openapi:
+      title: 'OpenApi specification - Task Manager'
+      version: '1.0'
+      description: 'OpenApi documentation for Task Manager'
+      contact:
+        name: 'suhoi'
+        email: 'suhoio2k00@gmail.com'
+      server:
+        url: 'http://localhost:8080/'
+        description: 'Local ENV'
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem

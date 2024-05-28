@@ -1,0 +1,46 @@
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092, localhost:9094, localhost:9096
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: "userActionEvent:com.suhoi.demo.out.event.UserActionEvent"
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.xml
+    default-schema: task_manager
+    liquibase-schema: liquibase_service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: suhoi
+    password: qwerty
+    url: jdbc:postgresql://localhost:5432/suhoi
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  application:
+    name: TaskManager
+    openapi:
+      title: 'OpenApi specification - Task Manager'
+      version: '1.0'
+      description: 'OpenApi documentation for Task Manager'
+      contact:
+        name: 'suhoi'
+        email: 'suhoio2k00@gmail.com'
+      server:
+        url: 'http://localhost:8080/'
+        description: 'Local ENV'
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
+server:
+  port: 8080
